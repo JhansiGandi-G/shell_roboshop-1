@@ -8,7 +8,7 @@ G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 CURRENT_DIR=$PWD
-MONGO_DB_HOST=mongodb.daws88s-jhansi.online
+MySQL_HOST=mysql.daws88s-jhansi.online
 
 if  [ $USERID -ne 0 ]; then
     echo  -e "$R please run the script from root user $N" | tee -a $LOGS_FILE
@@ -66,13 +66,13 @@ VALIDATE $? "Created systemctl service"
 dnf install mysql -y  &>>$LOGS_FILE
 VALIDATE $? "Installing MySQL"
 
-mysql -h $MONGO_DB_HOST -uroot -pRoboShop@1 -e 'use cities'
+mysql -h $MySQL_HOST -uroot -pRoboShop@1 -e 'use cities'
 
 if [ $? -ne 0 ]; then
 
-    mysql -h $MONGO_DB_HOST -uroot -pRoboShop@1 < /app/db/schema.sql &>>$LOGS_FILE
-    mysql -h $MONGO_DB_HOST -uroot -pRoboShop@1 < /app/db/app-user.sql &>>$LOGS_FILE
-    mysql -h $MONGO_DB_HOST -uroot -pRoboShop@1 < /app/db/master-data.sql &>>$LOGS_FILE
+    mysql -h $MySQL_HOST -uroot -pRoboShop@1 < /app/db/schema.sql &>>$LOGS_FILE
+    mysql -h $MySQL_HOST -uroot -pRoboShop@1 < /app/db/app-user.sql &>>$LOGS_FILE
+    mysql -h $MySQL_HOST -uroot -pRoboShop@1 < /app/db/master-data.sql &>>$LOGS_FILE
     VALIDATE $? "Loaded data into MySQL"
 else
     echo -e "data is already loaded ... $Y SKIPPING $N"
